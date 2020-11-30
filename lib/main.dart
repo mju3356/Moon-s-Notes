@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_notes_app_v1/screens/login_page.dart';
-import 'package:flutter_notes_app_v1/screens/main_page.dart';
+import 'screens/main_page.dart';
 
 void main() {
   runApp(MyApp());

@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_notes_app_v1/model/notes.dart';
+import 'package:flutter_notes_app_v1/screens/detail_page.dart';
 import 'package:intl/intl.dart';
-
 
 class MainPage extends StatefulWidget {
   @override
@@ -13,63 +13,46 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   //임의 데이터
   List<Note> notes = [
-
     Note.fromMap({
       'title': '오늘할일',
-      'date': DateTime(2020, 11, 27,21,30),
+      'date': DateTime(2020, 11, 27, 21, 30),
       'content': '코딩열심히하기',
       'important': true,
-      'image': 'No'
+      'image': null
     }),
-        Note.fromMap({
+    Note.fromMap({
       'title': '오늘할일',
-      'date': DateTime(2020, 11, 27,21,30),
+      'date': DateTime(2020, 11, 27, 21, 30),
       'content': '코딩열심히하기',
       'important': false,
-      'image': 'No'
+      'image': null
     }),
-        Note.fromMap({
+    Note.fromMap({
       'title': '오늘할일',
-      'date': DateTime(2020, 11, 27,21,30),
+      'date': DateTime(2020, 11, 27, 21, 30),
       'content': '코딩열심히하기',
       'important': false,
-      'image': 'No'
+      'image': null
     }),
-        Note.fromMap({
+    Note.fromMap({
       'title': '오늘할일',
-      'date': DateTime(2020, 11, 27,21,30),
+      'date': DateTime(2020, 11, 27, 21, 30),
       'content': '코딩열심히하기',
       'important': false,
-      'image': 'No'
+      'image': null
     }),
-        Note.fromMap({
+    Note.fromMap({
       'title': '오늘할일',
-      'date': DateTime(2020, 11, 27,21,30),
-      'content': '코딩열심히하기코딩열심히하\n기코딩열\n심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기',
+      'date': DateTime(2020, 11, 27, 21, 30),
+      'content':
+          '코딩열심히하기코딩열심히하\n기코딩열\n심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기',
       'important': true,
-      'image': 'No'
+      'image': null
     }),
-        Note.fromMap({
-      'title': '오늘할일',
-      'date': DateTime(2020, 11, 27,21,30),
-      'content': '코딩열심히하기',
-      'important': true,
-      'image': 'No'
-    }),
-        Note.fromMap({
-      'title': '오늘할일',
-      'date': DateTime(2020, 11, 27,21,30),
-      'content': '코딩열심히하기',
-      'important': true,
-      'image': 'No'
-    }),
-
-
   ];
   TextEditingController _controller = TextEditingController();
-  final DateFormat _dateFormat =DateFormat('dd MMM');
-
-
+  final DateFormat _dateFormat = DateFormat('dd MMM');
+  bool _delete = false;
 
   @override
   Widget build(BuildContext context) {
@@ -77,12 +60,24 @@ class _MainPageState extends State<MainPage> {
     double height = size.height;
     double width = size.width;
 
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.edit,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DetailPage(
+                        note: _createNote(),
+                      )));
+        },
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
-
           children: [
             SizedBox(
               height: height * 0.03,
@@ -113,19 +108,18 @@ class _MainPageState extends State<MainPage> {
               height: height * 0.03,
             ),
             Container(
-
               width: width * 0.9,
               height: height * 0.14,
               padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow:[BoxShadow(
-                  color: Colors.black45 ,
-                  offset: Offset(5,5),
-                  blurRadius: 20
-                )]
-              ),
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black45,
+                        offset: Offset(5, 5),
+                        blurRadius: 20)
+                  ]),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -147,7 +141,6 @@ class _MainPageState extends State<MainPage> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide(color: Colors.transparent),
-
                         ),
                         contentPadding: EdgeInsets.fromLTRB(15, 0, 0, 20),
                         fillColor: Colors.white,
@@ -160,65 +153,114 @@ class _MainPageState extends State<MainPage> {
                           borderSide: BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                         ),
-
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: height*0.02,),
+            SizedBox(
+              height: height * 0.02,
+            ),
             Row(
               children: [
-                SizedBox(width: 10,),
-                Column(
+                SizedBox(
+                  width: 10,
+                ),
+                Row(
+
                   children: [
-                    Text('Notes',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontSize: 20
-                    ),),
-                    Container(
-                      width: 60,
-                      height: 5,
-                      color: Colors.blue,
+                    Column(
+                      children: [
+                        Text(
+                          'Notes',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 20),
+                        ),
+                        Container(
+                          width: 60,
+                          height: 5,
+                          color: Colors.blue,
+                        ),
+                      ],
                     ),
+          SizedBox(width: width*0.53,),
+                    _delete
+                        ? SizedBox(
+                            height: height*0.04,
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              color: Colors.red,
+                              onPressed: () {},
+                              child: Text('DEL',style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white
+                              ),),
+                            ))
+                        : Container()
                   ],
                 ),
               ],
             ),
-            SizedBox(height: height*0.009,),
-
+            SizedBox(
+              height: height * 0.009,
+            ),
             Expanded(
               child: ListView(
                 shrinkWrap: true,
                 physics: AlwaysScrollableScrollPhysics(),
-                children: _createNotes(notes, height, width,_dateFormat),
+                children: _createNotes(notes, height, width, _dateFormat),
               ),
             )
           ],
         ),
       ),
-    ));
+    );
   }
 
-  List<Widget> _createNotes(List<Note> notes, double height, double width,DateFormat _dateFormatter) {
+  Note _createNote() {
+    notes.add(Note.fromMap({
+      'title': '제목',
+      'date': DateTime.now(),
+      'content': '내용',
+      'important': false,
+      'image': null
+    }));
+    return notes.last;
+  }
+
+  List<Widget> _createNotes(List<Note> notes, double height, double width,
+      DateFormat _dateFormatter) {
     List<Widget> results = [];
     for (int i = 0; i < notes.length; i++) {
       results.add(Padding(
         padding: EdgeInsets.all(10),
-        child: InkWell(
-          onTap: (){
+        child: GestureDetector(
+          onLongPress: () {
+            setState(() {
+              _delete = !_delete;
+            });
+          },
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DetailPage(
+                          note: notes[i],
+                        )));
           },
           child: Container(
             height: height * 0.2,
             width: width * 0.9,
             decoration: BoxDecoration(
-                color: Color.fromRGBO(235, 235, 235,1),
+                color: Color.fromRGBO(235, 235, 235, 1),
                 borderRadius: BorderRadius.circular(10)),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -227,7 +269,25 @@ class _MainPageState extends State<MainPage> {
                     children: [
                       Row(
                         children: [
-                          notes[i].important?Icon(Icons.star,color: Colors.amber,):Container(),
+                          _delete
+                              ? SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: Checkbox(
+                                      value: notes[i].delete,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          notes[i].delete = value;
+                                        });
+                                      }),
+                                )
+                              : Container(),
+                          notes[i].important
+                              ? Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                )
+                              : Container(),
                           Text(
                             notes[i].title,
                             style: TextStyle(fontWeight: FontWeight.bold),
@@ -235,16 +295,22 @@ class _MainPageState extends State<MainPage> {
                         ],
                       ),
                       Text(
-                        _dateFormatter.format(notes[i].date,),
+                        _dateFormatter.format(
+                          notes[i].date,
+                        ),
                         style: TextStyle(
                           color: Color(0xFFAFB4C6),
                         ),
                       )
                     ],
                   ),
-                  SizedBox(height: 10,),
-                  Text(notes[i].content+'...',
-                  maxLines: 4,)
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    notes[i].content,
+                    maxLines: 4,
+                  )
                 ],
               ),
             ),
