@@ -19,42 +19,44 @@ class Note {
         delete = false;
 }
 
+
+List<Note>notes=[];
 //notes Test Data
-List<Note> notes = [
-  Note.fromMap({
-    'title': '오늘할일',
-    'date': DateTime(2020, 11, 27, 21, 30),
-    'content': '코딩열심히하기',
-    'important': true,
-    'image': null
-  }),
-  Note.fromMap({
-    'title': '오늘할일',
-    'date': DateTime(2020, 11, 27, 21, 30),
-    'content': '코딩열심히하기',
-    'important': false,
-    'image': null
-  }),
-  Note.fromMap({
-    'title': '오늘할일',
-    'date': DateTime(2020, 11, 27, 21, 30),
-    'content': '코딩열심히하기',
-    'important': false,
-    'image': null
-  }),
-  Note.fromMap({
-    'title': '오늘할일',
-    'date': DateTime(2020, 11, 27, 21, 30),
-    'content': '코딩열심히하기',
-    'important': false,
-    'image': null
-  }),
-  Note.fromMap({
-    'title': '오늘할일',
-    'date': DateTime(2020, 11, 27, 21, 30),
-    'content':
-        '코딩열심히하기코딩열심히하\n기코딩열\n심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기',
-    'important': true,
-    'image': null
-  }),
-];
+// List<Note> notes = [
+//   Note.fromMap({
+//     'title': '오늘할일',
+//     'date': DateTime(2020, 11, 27, 21, 30),
+//     'content': '코딩열심히하기',
+//     'important': true,
+//     'image': null
+//   }),
+//   Note.fromMap({
+//     'title': '오늘할일',
+//     'date': DateTime(2020, 11, 27, 21, 30),
+//     'content': '코딩열심히하기',
+//     'important': false,
+//     'image': null
+//   }),
+//   Note.fromMap({
+//     'title': '오늘할일',
+//     'date': DateTime(2020, 11, 27, 21, 30),
+//     'content': '코딩열심히하기',
+//     'important': false,
+//     'image': null
+//   }),
+//   Note.fromMap({
+//     'title': '오늘할일',
+//     'date': DateTime(2020, 11, 27, 21, 30),
+//     'content': '코딩열심히하기',
+//     'important': false,
+//     'image': null
+//   }),
+//   Note.fromMap({
+//     'title': '오늘할일',
+//     'date': DateTime(2020, 11, 27, 21, 30),
+//     'content':
+//         '코딩열심히하기코딩열심히하\n기코딩열\n심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기코딩열심히하기',
+//     'important': true,
+//     'image': null
+//   }),
+// ];

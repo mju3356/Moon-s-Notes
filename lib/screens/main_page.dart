@@ -44,251 +44,253 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     double width = size.width;
     double height = size.height;
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.edit,
-            color: Colors.white,
+      child: SafeArea(
+        child: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            child: Icon(
+              Icons.edit,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DetailPage(
+                            num: _createNote(),
+                            callbackImage: callbackImage,
+                            callbackImportant: callbackImportant)));
+              });
+            },
           ),
-          onPressed: () {
-            setState(() {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          DetailPage(
-                              num: _createNote(),
-                              callbackImage: callbackImage,
-                              callbackImportant: callbackImportant)));
-            });
-          },
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: height * 0.03,
-              ),
-              Row(
-                children: [
-                  SizedBox(
-                    width: width * 0.03,
-                  ),
-                  Container(
-                    height: height * 0.07,
-                    width: height * 0.07,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('images/logo.png')),
-                        borderRadius: BorderRadius.circular(20)),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: Text(
-                      "Moon's Note",
-                      style:
-                      TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: height * 0.04),
-                    child: Text(
-                      'Developed by Moon',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: height * 0.03,
-              ),
-              Container(
-                width: width * 0.9,
-                height: height * 0.14,
-                padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black45,
-                          offset: Offset(5, 5),
-                          blurRadius: 20)
-                    ]),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: height * 0.03,
+                ),
+                Row(
                   children: [
-                    Text(
-                      _showResults(_controller.text, height, width, _dateFormat)
-                          .length
-                          .toString() +
-                          ' Notes',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                    SizedBox(
+                      width: width * 0.03,
+                    ),
+                    Container(
+                      height: height * 0.07,
+                      width: height * 0.07,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('images/logo.png')),
+                          borderRadius: BorderRadius.circular(20)),
                     ),
                     SizedBox(
-                      height: 10,
+                      width: 20,
                     ),
-                    SizedBox(
-                      height: 40,
-                      child: TextField(
-                        controller: _controller,
-                        onChanged: (text) {
-                          setState(() {
-                            results =
-                                _showResults(text, height, width, _dateFormat);
-                          });
-                        },
-                        decoration: InputDecoration(
-                          suffixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          contentPadding: EdgeInsets.fromLTRB(15, 0, 0, 20),
-                          fillColor: Colors.white,
-                          filled: true,
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                          ),
-                        ),
+                    Expanded(
+                      child: Text(
+                        "Moon's Note",
+                        style: TextStyle(
+                            fontSize: width*0.07, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: height * 0.04),
+                      child: Text(
+                        'Developed by Moon',
+                        style: TextStyle(color: Colors.grey,
+                        fontSize: width*0.03),
                       ),
                     ),
                   ],
                 ),
-              ),
-              SizedBox(
-                height: height * 0.02,
-              ),
-              Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Row(
+                SizedBox(
+                  height: height * 0.03,
+                ),
+                Container(
+                  width: width * 0.9,
+                  height: height * 0.14,
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                      color: Colors.blueAccent,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black45,
+                            offset: Offset(5, 5),
+                            blurRadius: 20)
+                      ]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Column(
-                        children: [
-                          Text(
-                            'Notes',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                                fontSize: 20),
-                          ),
-                          Container(
-                            width: 60,
-                            height: 5,
-                            color: Colors.blue,
-                          ),
-                        ],
+                      Text(
+                        _showResults(_controller.text, height, width,
+                                    _dateFormat)
+                                .length
+                                .toString() +
+                            ' Notes',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: width*0.05),
                       ),
                       SizedBox(
-                        width: width * 0.53,
+                        height: 10,
                       ),
-                      _delete
-                          ? SizedBox(
-                          height: height * 0.04,
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            color: Colors.red,
-                            onPressed: () {
-                              List _delDatas = [];
-                              for (int i = 0; i < notes.length; i++) {
-                                if (notes[i].delete) {
-                                  _delDatas.add(i);
-                                }
-                              }
-                              showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (_) =>
-                                    CupertinoAlertDialog(
-                                      title: Text('삭제'),
-                                      content: Text(
-                                          _delDatas.length.toString() +
-                                              '개의 노트를 삭제하시겠습니까?'),
-                                      actions: [
-                                        CupertinoDialogAction(
-                                          child: Text('No'),
-                                          onPressed: () {
-                                            _delete = false;
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                        CupertinoDialogAction(
-                                          child: Text('YES'),
-                                          onPressed: () {
-                                            for (int i in _delDatas) {
-                                              setState(() {
-                                                notes.removeAt(i);
-                                              });
-                                            }
-                                            _delete = false;
-                                            Navigator.of(context).pop();
-                                          },
-                                        )
-                                      ],
-                                    ),
-                              );
-                            },
-                            child: Text(
-                              'DEL',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                      SizedBox(
+                        height: 40,
+                        child: TextField(
+                          controller: _controller,
+                          onChanged: (text) {
+                            setState(() {
+                              results = _showResults(
+                                  text, height, width, _dateFormat);
+                            });
+                          },
+                          decoration: InputDecoration(
+                            suffixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(color: Colors.transparent),
                             ),
-                          ))
-                          : Container()
+                            contentPadding: EdgeInsets.fromLTRB(15, 0, 0, 20),
+                            fillColor: Colors.white,
+                            filled: true,
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                ],
-              ),
-              SizedBox(
-                height: height * 0.009,
-              ),
-              Expanded(
-                child: ListView(
-                  children: _showResults(
-                      _controller.text, height, width, _dateFormat),
                 ),
-              )
-            ],
+                SizedBox(
+                  height: height * 0.02,
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              'Notes',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: width*0.05),
+                            ),
+                            Container(
+                              width: 60,
+                              height: 5,
+                              color: Colors.blue,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: width * 0.53,
+                        ),
+                        _delete
+                            ? SizedBox(
+                                height: height * 0.04,
+                                child: RaisedButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  color: Colors.red,
+                                  onPressed: () {
+                                    List _delDatas = [];
+                                    for (int i = 0; i < notes.length; i++) {
+                                      if (notes[i].delete) {
+                                        _delDatas.add(i);
+                                      }
+                                    }
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (_) => CupertinoAlertDialog(
+                                        title: Text('삭제'),
+                                        content: Text(
+                                            _delDatas.length.toString() +
+                                                '개의 노트를 삭제하시겠습니까?'),
+                                        actions: [
+                                          CupertinoDialogAction(
+                                            child: Text('No'),
+                                            onPressed: () {
+                                              _delete = false;
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          CupertinoDialogAction(
+                                            child: Text('YES'),
+                                            onPressed: () {
+                                              for (int i in _delDatas) {
+                                                setState(() {
+                                                  notes.removeAt(i);
+                                                });
+                                              }
+                                              _delete = false;
+                                              Navigator.of(context).pop();
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    'DEL',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ))
+                            : Container()
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: height * 0.009,
+                ),
+                Expanded(
+                  child: _showResults(_controller.text, height, width, _dateFormat).isNotEmpty?ListView(
+                    children: _showResults(
+                        _controller.text, height, width, _dateFormat),
+                  ):NoNotes(height,width)
+                )
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  List<Widget> _showResults(String search, double height, double width,
-      DateFormat _dateFormatter) {
+  List<Widget> _showResults(
+      String search, double height, double width, DateFormat _dateFormatter) {
     List<Widget> results = [];
     search = search.toUpperCase();
 
     for (var j = 0; j < 2; j++) {
       for (int i = 0; i < notes.length; i++) {
-        if ((j==0 && notes[i].important)||(j==1 && !notes[i].important)) {
+        if ((j == 0 && notes[i].important) || (j == 1 && !notes[i].important)) {
           if (notes[i].title.toLowerCase().toUpperCase().contains(search) ||
               notes[i].content.toUpperCase().contains(search) ||
               notes[i].date.toString().toUpperCase().contains(search)) {
@@ -304,8 +306,7 @@ class _MainPageState extends State<MainPage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              DetailPage(
+                          builder: (context) => DetailPage(
                                 num: i,
                                 callbackImage: callbackImage,
                                 callbackImportant: callbackImportant,
@@ -318,8 +319,8 @@ class _MainPageState extends State<MainPage> {
                       color: Color.fromRGBO(235, 235, 235, 1),
                       borderRadius: BorderRadius.circular(10)),
                   child: Padding(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -330,26 +331,26 @@ class _MainPageState extends State<MainPage> {
                               children: [
                                 _delete
                                     ? SizedBox(
-                                  width: 24,
-                                  height: 24,
-                                  child: Checkbox(
-                                      value: notes[i].delete,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          notes[i].delete = value;
-                                        });
-                                      }),
-                                )
+                                        width: 24,
+                                        height: 24,
+                                        child: Checkbox(
+                                            value: notes[i].delete,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                notes[i].delete = value;
+                                              });
+                                            }),
+                                      )
                                     : Container(),
                                 notes[i].important
                                     ? Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                )
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      )
                                     : Container(),
                                 Text(
                                   notes[i].title,
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: height*0.025),
                                 ),
                               ],
                             ),
@@ -359,12 +360,13 @@ class _MainPageState extends State<MainPage> {
                               ),
                               style: TextStyle(
                                 color: Color(0xFFAFB4C6),
+                                  fontSize: height*0.02,
                               ),
                             )
                           ],
                         ),
                         SizedBox(
-                          height: 10,
+                          height: height*0.008,
                         ),
                         Row(
                           children: [
@@ -374,15 +376,18 @@ class _MainPageState extends State<MainPage> {
                               child: Text(
                                 notes[i].content,
                                 maxLines: 4,
+                                style: TextStyle(
+                                  fontSize: height*0.022
+                                ),
                               ),
                             ),
                             notes[i].image == null
                                 ? Container()
                                 : SizedBox(
-                              height: height * 0.1,
-                              width: height * 0.1,
-                              child: Image.file(notes[i].image),
-                            )
+                                    height: height * 0.1,
+                                    width: height * 0.1,
+                                    child: Image.file(notes[i].image),
+                                  )
                           ],
                         )
                       ],
@@ -397,5 +402,24 @@ class _MainPageState extends State<MainPage> {
     }
 
     return results;
+  }
+
+  Widget NoNotes(height,width){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset('images/empty.png'),
+        SizedBox(height: height*0.05),
+        Text('Note is Empty....',
+        style: TextStyle(
+          fontSize: width*0.08,
+          color: Colors.blueGrey
+        ),),
+        SizedBox(height: height*0.1,)
+
+
+
+      ],
+    );
   }
 }

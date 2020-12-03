@@ -76,7 +76,7 @@ class _DetailPageState extends State<DetailPage> {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 30),
+                                  fontSize: width*0.08),
                               onChanged: (text) {
                                 notes[widget.num].title = text;
                               },
@@ -122,7 +122,7 @@ class _DetailPageState extends State<DetailPage> {
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
                           decoration: InputDecoration(border: InputBorder.none),
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: width*0.05),
                           onChanged: (text) {
                             notes[widget.num].content = text;
                           },
@@ -130,7 +130,8 @@ class _DetailPageState extends State<DetailPage> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(_dateFormat.format(notes[widget.num].date),
-                              style: TextStyle(color: Colors.grey)),
+                              style: TextStyle(color: Colors.grey,
+                              fontSize: width*0.04)),
                         ),
                       ],
                     )
