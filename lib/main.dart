@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_notes_app_v1/screens/main_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 

@@ -23,18 +23,14 @@ class _MainPageState extends State<MainPage> {
 
   void initState() {
     super.initState();
-
-    setState(() {
-      loadNote();
-    });
   }
 
-  callbackNote(num,Note note) {
+  callbackNote(num, Note note) {
     setState(() {
       notes[num].important = note.important;
-      notes[num].content=note.content;
-      notes[num].title=note.title;
-      notes[num].image=note.image;
+      notes[num].content = note.content;
+      notes[num].title = note.title;
+      notes[num].image = note.image;
       saveNote(notes);
     });
   }
@@ -56,266 +52,281 @@ class _MainPageState extends State<MainPage> {
     Size size = MediaQuery.of(context).size;
     double width = size.width;
     double height = size.height;
-    return GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-          setState(() {
-            if(_delete) {
-              uncheckBox();
-            }
+    return FutureBuilder<Object>(
+        future: loadNote(),
+        builder: (context, snapshot) {
+          if(snapshot.hasData==false){
+            return CircularProgressIndicator();
+          }
+         else {
+            return GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                  setState(() {
+                    if (_delete) {
+                      uncheckBox();
+                    }
 
-            _delete=false;
-
-
-
-          });
-        },
-        child: SafeArea(
-          child: Scaffold(
-            floatingActionButton: FloatingActionButton(
-              child: Icon(
-                Icons.edit,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                setState(() {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DetailPage(
-
-                              note: _createNote(),
-                              num: notes.length - 1,
-                              callbackNote: callbackNote,)));
-                  saveNote(notes);
-                });
-              },
-            ),
-            body: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: height * 0.03,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: width * 0.03,
+                    _delete = false;
+                  });
+                },
+                child: SafeArea(
+                  child: Scaffold(
+                    floatingActionButton: FloatingActionButton(
+                      child: Icon(
+                        Icons.edit,
+                        color: Colors.white,
                       ),
-                      Container(
-                        height: height * 0.07,
-                        width: height * 0.07,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('images/logo.png')),
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                        child: Text(
-                          "Moon's Note",
-                          style: TextStyle(
-                              fontSize: width * 0.07,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: height * 0.04),
-                        child: Text(
-                          'Developed by Moon',
-                          style: TextStyle(
-                              color: Colors.grey, fontSize: width * 0.03),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.03,
-                  ),
-                  Container(
-                    width: width * 0.9,
-                    height: height * 0.14,
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        color: Colors.blueAccent,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black45,
-                              offset: Offset(5, 5),
-                              blurRadius: 20)
-                        ]),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          _showResults(_controller.text, height, width,
-                                      _dateFormat)
-                                  .length
-                                  .toString() +
-                              ' Notes',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: width * 0.05),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: _controller,
-                            onChanged: (text) {
-                              setState(() {
-                                results = _showResults(
-                                    text, height, width, _dateFormat);
-                              });
-                            },
-                            decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.search),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                              ),
-                              contentPadding: EdgeInsets.fromLTRB(15, 0, 0, 20),
-                              fillColor: Colors.white,
-                              filled: true,
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                      onPressed: () {
+                        setState(() {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DetailPage(
+                                        note: _createNote(),
+                                        num: notes.length - 1,
+                                        callbackNote: callbackNote,
+                                      )));
+                          saveNote(notes);
+                        });
+                      },
                     ),
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Row(
+                    body: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
                         children: [
-                          Column(
+                          SizedBox(
+                            height: height * 0.03,
+                          ),
+                          Row(
                             children: [
-                              Text(
-                                'Notes',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: width * 0.05),
+                              SizedBox(
+                                width: width * 0.03,
                               ),
                               Container(
-                                width: 60,
-                                height: 5,
-                                color: Colors.blue,
+                                height: height * 0.07,
+                                width: height * 0.07,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage('images/logo.png')),
+                                    borderRadius: BorderRadius.circular(20)),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "Moon's Note",
+                                  style: TextStyle(
+                                      fontSize: width * 0.07,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: height * 0.04),
+                                child: Text(
+                                  'Developed by Moon',
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: width * 0.03),
+                                ),
                               ),
                             ],
                           ),
                           SizedBox(
-                            width: width * 0.53,
+                            height: height * 0.03,
                           ),
-                          _delete
-                              ? SizedBox(
-                                  height: height * 0.04,
-                                  child: RaisedButton(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    color: Colors.red,
-                                    onPressed: () {
-                                      List _delDatas = [];
-                                      for (int i = 0; i < notes.length; i++) {
-                                        if (notes[i].delete) {
-                                          _delDatas.add(i);
-                                        }
-                                      }
-                                      _delDatas = _delDatas.reversed.toList();
-                                      showDialog(
-                                        context: context,
-                                        barrierDismissible: false,
-                                        builder: (_) => CupertinoAlertDialog(
-                                          title: Text('삭제'),
-                                          content: Text(
-                                              _delDatas.length.toString() +
-                                                  '개의 노트를 삭제하시겠습니까?'),
-                                          actions: [
-                                            CupertinoDialogAction(
-                                              child: Text('No'),
-                                              onPressed: () {
-                                                setState(() {
-                                                  _delete = false;
-                                                  Navigator.of(context).pop();
-                                                });
-                                              },
-                                            ),
-                                            CupertinoDialogAction(
-                                              child: Text('YES'),
-                                              onPressed: () {
-                                                for (int i in _delDatas) {
-                                                  print(i);
-
-                                                  notes.removeAt(i);
-                                                }
-                                                saveNote(notes);
-                                                setState(() {
-                                                  _delete = false;
-                                                  Navigator.of(context).pop();
-                                                });
-                                              },
-                                            )
-                                          ],
-                                        ),
-                                      );
+                          Container(
+                            width: width * 0.9,
+                            height: height * 0.14,
+                            padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                                color: Colors.blueAccent,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black45,
+                                      offset: Offset(5, 5),
+                                      blurRadius: 20)
+                                ]),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  _showResults(_controller.text, height, width,
+                                              _dateFormat)
+                                          .length
+                                          .toString() +
+                                      ' Notes',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: width * 0.05),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child: TextField(
+                                    controller: _controller,
+                                    onChanged: (text) {
+                                      setState(() {
+                                        results = _showResults(
+                                            text, height, width, _dateFormat);
+                                      });
                                     },
-                                    child: Text(
-                                      'DEL',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
+                                    decoration: InputDecoration(
+                                      suffixIcon: Icon(Icons.search),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                        borderSide: BorderSide(
+                                            color: Colors.transparent),
+                                      ),
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(15, 0, 0, 20),
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.transparent),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30)),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.transparent),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30)),
+                                      ),
                                     ),
-                                  ))
-                              : Container()
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: height * 0.02,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(
+                                        'Notes',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                            fontSize: width * 0.05),
+                                      ),
+                                      Container(
+                                        width: 60,
+                                        height: 5,
+                                        color: Colors.blue,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: width * 0.53,
+                                  ),
+                                  _delete
+                                      ? SizedBox(
+                                          height: height * 0.04,
+                                          child: RaisedButton(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            color: Colors.red,
+                                            onPressed: () {
+                                              List _delDatas = [];
+                                              for (int i = 0;
+                                                  i < notes.length;
+                                                  i++) {
+                                                if (notes[i].delete) {
+                                                  _delDatas.add(i);
+                                                }
+                                              }
+                                              _delDatas =
+                                                  _delDatas.reversed.toList();
+                                              showDialog(
+                                                context: context,
+                                                barrierDismissible: false,
+                                                builder: (_) =>
+                                                    CupertinoAlertDialog(
+                                                  title: Text('삭제'),
+                                                  content: Text(_delDatas.length
+                                                          .toString() +
+                                                      '개의 노트를 삭제하시겠습니까?'),
+                                                  actions: [
+                                                    CupertinoDialogAction(
+                                                      child: Text('No'),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          _delete = false;
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        });
+                                                      },
+                                                    ),
+                                                    CupertinoDialogAction(
+                                                      child: Text('YES'),
+                                                      onPressed: () {
+                                                        for (int i
+                                                            in _delDatas) {
+                                                          print(i);
+
+                                                          notes.removeAt(i);
+                                                        }
+                                                        saveNote(notes);
+                                                        setState(() {
+                                                          _delete = false;
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        });
+                                                      },
+                                                    )
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                            child: Text(
+                                              'DEL',
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            ),
+                                          ))
+                                      : Container()
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: height * 0.009,
+                          ),
+                          Expanded(
+                            child: _showResults(_controller.text, height, width,
+                                        _dateFormat)
+                                    .isNotEmpty
+                                ? ListView(
+                                    children: _showResults(_controller.text,
+                                        height, width, _dateFormat),
+                                  )
+                                : ListView(children: [NoNotes(height, width)]),
+                          )
                         ],
                       ),
-                    ],
+                    ),
                   ),
-                  SizedBox(
-                    height: height * 0.009,
-                  ),
-                  Expanded(
-                    child: _showResults(
-                                _controller.text, height, width, _dateFormat)
-                            .isNotEmpty
-                        ? ListView(
-                            children: _showResults(
-                                _controller.text, height, width, _dateFormat),
-                          )
-                        : ListView(children: [NoNotes(height, width)]),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ));
+                ));
+          }
+        });
   }
 
   List<Widget> _showResults(
@@ -335,27 +346,24 @@ class _MainPageState extends State<MainPage> {
                 onLongPress: () {
                   setState(() {
                     _delete = !_delete;
-                    if(_delete) {
-                      uncheckBox();}
+                    if (_delete) {
+                      uncheckBox();
+                    }
                   });
                 },
                 onTap: () {
-                  if(_delete) {
+                  if (_delete) {
                     setState(() {
-                      notes[i].delete =!notes[i].delete;
+                      notes[i].delete = !notes[i].delete;
                     });
-                  }
-                  else {
+                  } else {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                DetailPage(
-
+                            builder: (context) => DetailPage(
                                   note: notes[i],
                                   num: i,
                                   callbackNote: callbackNote,
-
                                 )));
                   }
                 },
@@ -484,12 +492,9 @@ class _MainPageState extends State<MainPage> {
     prefs.setStringList('notes', jsonNotes);
   }
 
-  uncheckBox(){
-    for(int i=0;i<notes.length;i++){
-      notes[i].delete=false;
-
+  uncheckBox() {
+    for (int i = 0; i < notes.length; i++) {
+      notes[i].delete = false;
     }
   }
-
-
 }
