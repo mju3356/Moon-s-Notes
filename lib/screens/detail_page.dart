@@ -7,12 +7,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class DetailPage extends StatefulWidget {
-  final int num;
-  Function(int) callbackImportant;
-  Function callbackImage;
+  Function callbackNote;
+  Note note;
+  int num;
 
-
-  DetailPage({this.num, this.callbackImportant,this.callbackImage});
+  DetailPage({this.note, this.num, this.callbackNote});
 
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -23,15 +22,14 @@ class _DetailPageState extends State<DetailPage> {
   final TextEditingController _titleController = TextEditingController();
   final DateFormat _dateFormat = DateFormat('yyyy-MM-dd EEEE');
   final picker = ImagePicker();
-  bool _showDelete=false;
-
+  bool _showDelete = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _contentController.text = notes[widget.num].content;
-    _titleController.text = notes[widget.num].title;
+    _contentController.text = widget.note.content;
+    _titleController.text = widget.note.title;
   }
 
   @override
@@ -41,7 +39,7 @@ class _DetailPageState extends State<DetailPage> {
     double height = size.height;
     return SafeArea(
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusScope.of(context).unfocus();
         },
         child: Scaffold(
@@ -57,7 +55,7 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                     Container(
                       width: width,
-                      height: height * 0.10,
+                      height: height * 0.09,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.blueAccent,
@@ -76,9 +74,14 @@ class _DetailPageState extends State<DetailPage> {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: width*0.08),
+                                  fontSize: width * 0.08),
                               onChanged: (text) {
-                                notes[widget.num].title = text;
+                                widget.note.title = text;
+                                widget.callbackNote(
+                                    widget.num,
+                                    widget.note.content,
+                                    widget.note.title,
+                                    widget.note.image);
                               },
                             ),
                           ),
@@ -91,14 +94,17 @@ class _DetailPageState extends State<DetailPage> {
                           IconButton(
                               icon: Icon(
                                 Icons.star,
-                                color: notes[widget.num].important
+                                color: widget.note.important
                                     ? Colors.amber
                                     : Colors.grey,
                               ),
                               onPressed: () {
-
                                 setState(() {
-                                  widget.callbackImportant(widget.num);
+                                  widget.callbackNote(
+                                      widget.num,
+                                      widget.note.content,
+                                      widget.note.title,
+                                      widget.note.image);
                                 });
                               })
                         ],
@@ -116,22 +122,28 @@ class _DetailPageState extends State<DetailPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        notes[widget.num].image == null ? Container() : showImage(),
+                        widget.note.image == null ? Container() : showImage(),
                         TextField(
                           controller: _contentController,
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
                           decoration: InputDecoration(border: InputBorder.none),
-                          style: TextStyle(fontSize: width*0.05),
+                          style: TextStyle(fontSize: width * 0.05),
                           onChanged: (text) {
-                            notes[widget.num].content = text;
+                            widget.note.content = text;
+                            widget.callbackNote(
+                                widget.num,
+                                widget.note.content,
+                                widget.note.title,
+                                widget.note.image);
+                            // Note.saveNote(notes);
                           },
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(_dateFormat.format(notes[widget.num].date),
-                              style: TextStyle(color: Colors.grey,
-                              fontSize: width*0.04)),
+                          child: Text(_dateFormat.format(widget.note.date),
+                              style: TextStyle(
+                                  color: Colors.grey, fontSize: width * 0.04)),
                         ),
                       ],
                     )
@@ -145,57 +157,63 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-
-  Widget showImage(){
+  Widget showImage() {
     return GestureDetector(
       onTap: () {
         setState(() {
           _showDelete = true;
-     Future.delayed(Duration(seconds: 3),() {
+          Future.delayed(Duration(seconds: 3), () {
             setState(() {
-              _showDelete=false;
-
+              _showDelete = false;
             });
           });
         });
       },
-        child: Stack(
-          alignment: Alignment.topRight,
-          children: [
-            Image.file(notes[widget.num].image),
-            _showDelete?Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: (){
-                  setState(() {
-                    widget.callbackImage(widget.num,null);
-                  });
-                },
-                child: Container(
-
-                  alignment: Alignment.center,
-                  height: 20,
-                  width: 20,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          Image.file(widget.note.image),
+          _showDelete
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        widget.callbackNote(
+                            widget.num,
+                            widget.note.content,
+                            widget.note.title,
+                            null);;
+                      });
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 20,
+                      width: 20,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: Colors.red),
+                      child: Text(
+                        'X',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ),
-                  child: Text('X',
-                  style: TextStyle(color: Colors.white),),
-                ),
-              ),
-            ):Container(),
-
-          ],
-        ),
-      
+                )
+              : Container(),
+        ],
+      ),
     );
   }
 
   Future getImage() async {
     final pickFile = await picker.getImage(source: ImageSource.gallery);
+
     setState(() {
-      widget.callbackImage(widget.num,File(pickFile.path));
+      widget.callbackNote(
+          widget.num,
+          widget.note.content,
+          widget.note.title,
+          File(pickFile.path));
     });
   }
 }
