@@ -37,12 +37,12 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  callbackNote(num,content,title,image) {
+  callbackNote(num,Note note) {
     setState(() {
-      notes[num].important = !notes[num].important;
-      notes[num].content=content;
-      notes[num].title=title;
-      notes[num].image=image;
+      notes[num].important = note.important;
+      notes[num].content=note.content;
+      notes[num].title=note.title;
+      notes[num].image=note.image;
       saveNote(notes);
     });
   }

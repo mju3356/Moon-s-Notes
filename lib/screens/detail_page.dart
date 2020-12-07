@@ -79,9 +79,7 @@ class _DetailPageState extends State<DetailPage> {
                                 widget.note.title = text;
                                 widget.callbackNote(
                                     widget.num,
-                                    widget.note.content,
-                                    widget.note.title,
-                                    widget.note.image);
+                                    widget.note);
                               },
                             ),
                           ),
@@ -100,11 +98,10 @@ class _DetailPageState extends State<DetailPage> {
                               ),
                               onPressed: () {
                                 setState(() {
+                                  widget.note.important=!widget.note.important;
                                   widget.callbackNote(
                                       widget.num,
-                                      widget.note.content,
-                                      widget.note.title,
-                                      widget.note.image);
+                                      widget.note);
                                 });
                               })
                         ],
@@ -133,9 +130,8 @@ class _DetailPageState extends State<DetailPage> {
                             widget.note.content = text;
                             widget.callbackNote(
                                 widget.num,
-                                widget.note.content,
-                                widget.note.title,
-                                widget.note.image);
+                              widget.note
+                            );
                             // Note.saveNote(notes);
                           },
                         ),
@@ -179,11 +175,10 @@ class _DetailPageState extends State<DetailPage> {
                   child: InkWell(
                     onTap: () {
                       setState(() {
+                        widget.note.image=null;
                         widget.callbackNote(
                             widget.num,
-                            widget.note.content,
-                            widget.note.title,
-                            null);;
+                           widget.note);;
                       });
                     },
                     child: Container(
@@ -209,11 +204,10 @@ class _DetailPageState extends State<DetailPage> {
     final pickFile = await picker.getImage(source: ImageSource.gallery);
 
     setState(() {
+      widget.note.image=File(pickFile.path);
       widget.callbackNote(
-          widget.num,
-          widget.note.content,
-          widget.note.title,
-          File(pickFile.path));
+      widget.num,
+      widget.note);
     });
   }
 }
