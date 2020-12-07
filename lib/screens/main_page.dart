@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_notes_app_v1/model/notes.dart';
 import 'package:flutter_notes_app_v1/screens/detail_page.dart';
@@ -19,15 +19,7 @@ class _MainPageState extends State<MainPage> {
   final DateFormat _dateFormat = DateFormat('dd MMM');
   bool _delete = false;
   List<Widget> results = [];
-  List<Note> notes = [
-    // Note.fromMap({
-    //   'title': "시발",
-    //   'date': DateTime(2020, 01, 01, 01, 01, 01),
-    //   'content': 'tlqkf',
-    //   'important': false,
-    //   'image': null
-    // })
-  ];
+  List<Note> notes = [];
 
   void initState() {
     super.initState();
